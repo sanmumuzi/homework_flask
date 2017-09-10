@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>作业详细</h1>
+</div>
+<div class="post-content">
+    <div class="post-title">{{ homework.post.title }}</div>
+    <div class="post-body">
+        {% if homework.post.body_html %}
+            {{ homework.post.body_html | safe }}
+        {% else %}
+            {{ homework.post.body }}
+        {% endif %}
+    </div>
+</div>
+<div>
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
+{% endblock %}

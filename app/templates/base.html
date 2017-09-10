@@ -1,0 +1,78 @@
+{% extends "bootstrap/base.html" %}
+
+
+{% block title %}校科协作业平台{% endblock %}
+
+{% block head %}
+{{ super() }}
+<script src="http://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<link rel="shortcut icon" href="{{ url_for('static', filename = 'favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename = 'favicon.ico') }}" type="image/x-icon">
+{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle"
+                    data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">SAST Homework</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        软件研发中心<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/homework_list/Python">Python</a></li>
+                        <li><a href="/homework_list/Linux">Linux</a></li>
+                        <li><a href="/homework_list/ACM">ACM</a></li>
+                    </ul>
+                </li>
+                {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('user.my_homework') }}">我的提交</a></li>
+                {% endif %}
+                {% if current_user.is_teacher %}
+                <li><a href="{{ url_for('user.publish_homework') }}">发布作业</a></li>
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_authenticated %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">帐号<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('user.change_password') }}">修改密码</a></li>
+                        <li><a href="{{ url_for('user.logout') }}">登出</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li><a href="{{ url_for('user.login') }}">登入</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% block page_content %}{% endblock %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock %}

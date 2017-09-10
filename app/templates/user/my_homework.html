@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+
+{% block page_content %}
+<div class="page-header">
+    <h1>作业提交记录</h1>
+</div>
+<ul class="posts">
+    {% for homework in homeworks %}
+    <li class="homework">
+        <div class="post-title">
+            <a href="{{ url_for('user.edit_homework', id=homework.id) }}">{{ homework.post.title }}</a>
+        </div>
+        <div class="homework-content">
+            <div class="homework-body">
+                {% if homework.body_html %}
+                    {{ homework.body_html | safe }}
+                {% else %}
+                    {{ homework.body }}
+                {% endif %}
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
